@@ -1,7 +1,13 @@
 import numpy as np
 from random import randrange, choice
 from collections import deque
-from itertools import product, permutations, chain, izip_longest
+from itertools import product, permutations, chain
+try:
+    from itertools import izip_longest
+    zip_function = izip_longest
+except ImportError:
+    from itertools import zip_longest
+    zip_function = zip_longest
 
 def validate_adjacency_matrix(matrix):
     """
@@ -82,7 +88,7 @@ def get_cardinality_vector(sequence):
 
 def compare_cardinality_vectors(vector_a,vector_b):
     """Compare two cardinality vectors and return False if the first vector is less uniform than the second vector, otherwise return True."""
-    return next((x for x in [a-b for a,b in izip_longest(vector_a,vector_b,fillvalue=0)][::-1] if x),1) > 0
+    return next((x for x in [a-b for a,b in zip_function(vector_a,vector_b,fillvalue=0)][::-1] if x),1) > 0
 
 def get_trials_in_sequence(sequence_info):
     """Return the total number of trials that would be produced using the supplied sequence information."""
